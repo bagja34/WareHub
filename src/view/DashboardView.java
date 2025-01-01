@@ -11,7 +11,6 @@ public class DashboardView {
             frame.setSize(1200, 800);
             frame.setLayout(new BorderLayout());
 
-            // Sidebar Panel
             JPanel sidebar = new JPanel();
             sidebar.setLayout(new GridLayout(5, 1));
             sidebar.setBackground(Color.DARK_GRAY);
