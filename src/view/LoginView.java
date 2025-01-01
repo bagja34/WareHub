@@ -4,76 +4,83 @@ import java.awt.*;
 
 public class LoginView {
     public static void main(String[] args) {
-        // Create frame
-        JFrame frame = new JFrame("GBU Corp Login");
-        frame.setSize(1000, 600);
+        JFrame frame = new JFrame("WareHub");
+        frame.setSize(1000, 650);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
+        frame.setLocationRelativeTo(null);
 
-        // Create background panel
-        JPanel backgroundPanel = new JPanel();
-        backgroundPanel.setBounds(0, 0, 1000, 600);
-        backgroundPanel.setBackground(new Color(240, 240, 255));
+        // Background Gradient
+        JPanel backgroundPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                Color color1 = new Color(0, 159, 255);
+                Color color2 = new Color(236, 47, 75);
+                GradientPaint gradient = new GradientPaint(0, 0, color1, getWidth(), getHeight(), color2);
+                g2d.setPaint(gradient);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
+        backgroundPanel.setBounds(0, 0, 1000, 650);
         backgroundPanel.setLayout(null);
 
         // Login panel
         JPanel loginPanel = new JPanel();
-        loginPanel.setBounds(50, 100, 400, 450);
-        backgroundPanel.setBackground(new Color(240, 240, 255));
-
         loginPanel.setLayout(null);
+        loginPanel.setBounds(100, 100, 400, 450);
+        loginPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        loginPanel.setBackground(new Color(255, 255, 255));
 
-        JLabel loginLabel = new JLabel("LOGIN");
-        loginLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        loginLabel.setBounds(120, 20, 100, 30);
+        JLabel loginLabel = new JLabel("LOGIN", JLabel.CENTER);
+        loginLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        loginLabel.setBounds(0, 20, 400, 30);
         loginPanel.add(loginLabel);
 
-        // Username
         JLabel usernameLabel = new JLabel("User Name");
         usernameLabel.setBounds(20, 70, 100, 20);
         loginPanel.add(usernameLabel);
 
         JTextField usernameField = new JTextField();
-        usernameField.setBounds(20, 100, 310, 30);
+        usernameField.setBounds(20, 100, 330, 35);
         loginPanel.add(usernameField);
 
-        // Password
         JLabel passwordLabel = new JLabel("Password");
         passwordLabel.setBounds(20, 140, 100, 20);
         loginPanel.add(passwordLabel);
 
         JPasswordField passwordField = new JPasswordField();
-        passwordField.setBounds(20, 170, 310, 30);
+        passwordField.setBounds(20, 170, 330, 35);
         loginPanel.add(passwordField);
 
-        // Submit button
         JButton submitButton = new JButton("SUBMIT");
-        submitButton.setBounds(120, 220, 100, 30);
+        submitButton.setBounds(125, 220, 100, 30);
         submitButton.setBackground(new Color(0, 0, 255));
         submitButton.setForeground(Color.WHITE);
         loginPanel.add(submitButton);
 
-        // Social login
-        JLabel socialLabel = new JLabel("Login With");
-        socialLabel.setBounds(130, 260, 100, 20);
+        JLabel socialLabel = new JLabel("Login With", JLabel.CENTER);
+        socialLabel.setBounds(0, 260, 350, 20);
         loginPanel.add(socialLabel);
 
         JButton googleButton = new JButton(new ImageIcon("google_icon.png"));
-        googleButton.setBounds(90, 290, 40, 40);
+        googleButton.setBounds(110, 290, 40, 40);
         loginPanel.add(googleButton);
 
         JButton facebookButton = new JButton(new ImageIcon("facebook_icon.png"));
-        facebookButton.setBounds(170, 290, 40, 40);
+        facebookButton.setBounds(200, 290, 40, 40);
         loginPanel.add(facebookButton);
 
         // Information panel
         JPanel infoPanel = new JPanel();
-        infoPanel.setBounds(400, 100, 350, 400);
-        backgroundPanel.setBackground(new Color(240, 240, 255));
         infoPanel.setLayout(null);
+        infoPanel.setBounds(500, 100, 400, 450);
+        infoPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        infoPanel.setBackground(new Color(255, 255, 255));
 
-        JLabel logoLabel = new JLabel("GBU CORP", JLabel.CENTER);
-        logoLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        JLabel logoLabel = new JLabel("WareHub", JLabel.CENTER);
+        logoLabel.setFont(new Font("Arial", Font.BOLD, 28));
         logoLabel.setBounds(50, 20, 250, 40);
         infoPanel.add(logoLabel);
 
@@ -85,16 +92,6 @@ public class LoginView {
         infoText.setBackground(new Color(255, 255, 255));
         infoPanel.add(infoText);
 
-        // Adjust panels for centered alignment
-        Dimension screenSize = frame.getSize();
-        int panelWidth = 350;
-        int panelHeight = 400;
-        int xMargin = (screenSize.width - (2 * panelWidth + 50)) / 2;
-
-        loginPanel.setBounds(xMargin, (screenSize.height - panelHeight) / 2, panelWidth, panelHeight);
-        infoPanel.setBounds(xMargin + panelWidth + 50, (screenSize.height - panelHeight) / 2, panelWidth, panelHeight);
-
-        // Add panels to frame
         backgroundPanel.add(loginPanel);
         backgroundPanel.add(infoPanel);
         frame.add(backgroundPanel);
