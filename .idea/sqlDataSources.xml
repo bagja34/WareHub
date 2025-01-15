@@ -4,12 +4,6 @@
     <option name="dataSources">
       <list>
         <State>
-          <option name="id" value="58ca10ea-ab0a-4128-96bc-59df9fbd19e2" />
-          <option name="name" value="admin" />
-          <option name="dbmsName" value="UNKNOWN" />
-          <option name="urls">
-            <array>
-              <option value="file://$PROJECT_DIR$/src/database/admin.sql" />
             </array>
           </option>
           <option name="outLayout" value="File per object by schema.groovy" />
