@@ -1,3 +1,8 @@
+package controllers;
+
+import models.HistoryModel;
+import view.HistoryView;
+
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,16 +23,16 @@ public class HistoryController {
         view.getLogoutButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0); // Logout logic
+                System.exit(0);
             }
         });
     }
 
     private void populateTable() {
         DefaultTableModel tableModel = (DefaultTableModel) view.getTable().getModel();
-        List<HistoryItem> items = model.getHistoryItems();
+        List<HistoryModel.HistoryItem> items = model.getHistoryItems();
 
-        for (HistoryItem item : items) {
+        for (HistoryModel.HistoryItem item : items) {
             tableModel.addRow(new Object[]{
                     item.getKode(),
                     item.getNama(),

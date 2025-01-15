@@ -1,10 +1,14 @@
+package view;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class HistoryView extends JFrame {
     private JTable table;
     private JButton logoutButton;
+    private JButton dashboardButton;
     private JTextField searchField;
 
     public HistoryView() {
@@ -18,12 +22,12 @@ public class HistoryView extends JFrame {
         sidebar.setLayout(new BoxLayout(sidebar, BoxLayout.Y_AXIS));
         sidebar.setBackground(Color.DARK_GRAY);
 
-        JLabel logoLabel = new JLabel("GBI Corp");
+        JLabel logoLabel = new JLabel("WareHub");
         logoLabel.setFont(new Font("Arial", Font.BOLD, 18));
         logoLabel.setForeground(Color.WHITE);
         logoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JButton dashboardButton = new JButton("DASHBOARD");
+        dashboardButton = new JButton("DASHBOARD");
         dashboardButton.setFont(new Font("Arial", Font.BOLD, 16));
         dashboardButton.setForeground(Color.WHITE);
         dashboardButton.setBackground(Color.GRAY);
@@ -67,6 +71,19 @@ public class HistoryView extends JFrame {
         mainContent.add(searchField, BorderLayout.SOUTH);
 
         add(mainContent, BorderLayout.CENTER);
+
+        setLocationRelativeTo(null);
+
+        // Button Actions
+        dashboardButton.addActionListener(e -> {
+            new DashboardView().setVisible(true);
+            dispose();
+        });
+
+        logoutButton.addActionListener(e -> {
+            new LoginView().setVisible(true);
+            dispose();
+        });
     }
 
     public JTable getTable() {
@@ -75,6 +92,10 @@ public class HistoryView extends JFrame {
 
     public JButton getLogoutButton() {
         return logoutButton;
+    }
+
+    public JButton getDashboardButton() {
+        return dashboardButton;
     }
 
     public JTextField getSearchField() {

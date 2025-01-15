@@ -46,7 +46,10 @@ public class DashboardView extends JFrame {
         dashboardButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Navigated to DASHBOARD"));
         gudangButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Navigated to GUDANG"));
         pembayaranButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Navigated to PEMBAYARAN"));
-        historyButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Navigated to HISTORY"));
+        historyButton.addActionListener(e -> {
+            new HistoryView().setVisible(true); // Menampilkan HistoryView
+            dispose(); // Menutup DashboardView
+        });
 
         setLocationRelativeTo(null);
     }
@@ -171,5 +174,9 @@ public class DashboardView extends JFrame {
 
             table.setModel(new javax.swing.table.DefaultTableModel(data, columnNames));
         }
+    }
+
+    public static void main(String[] args) {
+        new DashboardView().setVisible(true);
     }
 }
