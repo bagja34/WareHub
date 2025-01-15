@@ -1,5 +1,11 @@
+import controllers.LoginController;
+import models.User;
+import view.LoginView;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        User userModel = new User();
+        LoginView loginView = new LoginView();
+        new LoginController(userModel, loginView);
     }
 }
