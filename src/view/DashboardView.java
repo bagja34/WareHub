@@ -15,7 +15,7 @@ public class DashboardView extends JFrame {
         setLayout(new BorderLayout());
 
         JPanel sidebar = new JPanel();
-        sidebar.setLayout(new GridLayout(5, 1, 0, 10));
+        sidebar.setLayout(new GridLayout(6, 1, 0, 10)); // Tambahkan satu baris untuk tombol login
         sidebar.setBackground(new Color(45, 45, 45));
         sidebar.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -24,11 +24,13 @@ public class DashboardView extends JFrame {
         JButton gudangButton = createSidebarButton("GUDANG");
         JButton pembayaranButton = createSidebarButton("PEMBAYARAN");
         JButton historyButton = createSidebarButton("HISTORY");
+        JButton logoutButton = createSidebarButton("LOGOUT"); // Tombol untuk navigasi ke LoginView
 
         sidebar.add(dashboardButton);
         sidebar.add(gudangButton);
         sidebar.add(pembayaranButton);
         sidebar.add(historyButton);
+        sidebar.add(logoutButton); // Tambahkan tombol logout
 
         // Dashboard Panel
         JPanel dashboardPanel = new JPanel(new BorderLayout());
@@ -48,6 +50,10 @@ public class DashboardView extends JFrame {
         pembayaranButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Navigated to PEMBAYARAN"));
         historyButton.addActionListener(e -> {
             new HistoryView().setVisible(true); // Menampilkan HistoryView
+            dispose(); // Menutup DashboardView
+        });
+        logoutButton.addActionListener(e -> {
+            new LoginView().setVisible(true); // Menampilkan LoginView
             dispose(); // Menutup DashboardView
         });
 
@@ -85,19 +91,16 @@ public class DashboardView extends JFrame {
                 BorderFactory.createLineBorder(Color.GRAY), "Customer Information",
                 0, 0, new Font("SansSerif", Font.BOLD, 14), Color.DARK_GRAY));
 
-        // Table to display data
         JTable table = new JTable();
         table.setRowHeight(25);
         table.setShowGrid(true);
         table.setGridColor(Color.LIGHT_GRAY);
 
-        // Customize header
         JTableHeader header = table.getTableHeader();
         header.setFont(new Font("SansSerif", Font.BOLD, 14));
         header.setBackground(new Color(230, 230, 230));
         header.setForeground(Color.BLACK);
 
-        // Center alignment for table content
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
         table.setDefaultRenderer(Object.class, centerRenderer);
@@ -105,10 +108,9 @@ public class DashboardView extends JFrame {
         JScrollPane scrollPane = new JScrollPane(table);
         panel.add(scrollPane, BorderLayout.CENTER);
 
-        // Button to load data
         JButton viewAllButton = new JButton("View Customer");
         viewAllButton.setFont(new Font("SansSerif", Font.BOLD, 14));
-        viewAllButton.setBackground(new Color(60, 179, 113)); // Medium Sea Green
+        viewAllButton.setBackground(new Color(60, 179, 113));
         viewAllButton.setForeground(Color.WHITE);
         viewAllButton.setFocusPainted(false);
         viewAllButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
@@ -117,7 +119,7 @@ public class DashboardView extends JFrame {
         viewAllButton.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent e) {
-                viewAllButton.setBackground(new Color(46, 139, 87)); // Darker green on hover
+                viewAllButton.setBackground(new Color(46, 139, 87));
             }
 
             @Override
@@ -128,7 +130,6 @@ public class DashboardView extends JFrame {
 
         panel.add(viewAllButton, BorderLayout.SOUTH);
 
-        // Action for View All button
         viewAllButton.addActionListener(e -> {
             try {
                 loadDataToTable(table);
@@ -145,19 +146,15 @@ public class DashboardView extends JFrame {
         String username = "root";
         String password = "";
 
-        // SQL Query to fetch data
         String query = "SELECT nama, email, perusahaan FROM costumer";
 
-        // Database connection
         try (Connection connection = DriverManager.getConnection(url, username, password);
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
 
-            // Retrieve metadata and column names
             ResultSetMetaData metaData = resultSet.getMetaData();
             int columnCount = metaData.getColumnCount();
 
-            // Create table model
             Vector<String> columnNames = new Vector<>();
             for (int column = 1; column <= columnCount; column++) {
                 columnNames.add(metaData.getColumnName(column));
