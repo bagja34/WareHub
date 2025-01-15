@@ -1,14 +1,16 @@
 package view;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class LoginView {
+    private JFrame frame;
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JButton submitButton;
 
     public LoginView() {
-        JFrame frame = new JFrame("WareHub");
+        frame = new JFrame("WareHub");
         frame.setSize(1000, 650);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
@@ -34,7 +36,7 @@ public class LoginView {
         loginPanel.setLayout(null);
         loginPanel.setBounds(100, 100, 400, 450);
         loginPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        loginPanel.setBackground(new Color(255, 255, 255));
+        loginPanel.setBackground(Color.WHITE);
 
         JLabel loginLabel = new JLabel("LOGIN", JLabel.CENTER);
         loginLabel.setFont(new Font("Arial", Font.BOLD, 24));
@@ -63,25 +65,8 @@ public class LoginView {
         submitButton.setForeground(Color.WHITE);
         loginPanel.add(submitButton);
 
-        JLabel socialLabel = new JLabel("Login Dengan", JLabel.CENTER);
-        socialLabel.setBounds(0, 260, 350, 20);
-        loginPanel.add(socialLabel);
-
-        JButton googleButton = new JButton("G");
-        googleButton.setBounds(110, 290, 40, 40);
-        googleButton.setFont(new Font("Arial", Font.BOLD, 8));
-        googleButton.setBackground(new Color(219, 68, 55));
-        googleButton.setForeground(Color.WHITE);
-        googleButton.setFocusPainted(false);
-        loginPanel.add(googleButton);
-
-        JButton facebookButton = new JButton("F");
-        facebookButton.setBounds(200, 290, 40, 40);
-        facebookButton.setFont(new Font("Arial", Font.BOLD, 8));
-        facebookButton.setBackground(new Color(59, 89, 152));
-        facebookButton.setForeground(Color.WHITE);
-        facebookButton.setFocusPainted(false);
-        loginPanel.add(facebookButton);
+        backgroundPanel.add(loginPanel);
+        frame.add(backgroundPanel);
 
         // Panel Informasi
         JPanel infoPanel = new JPanel();
@@ -113,6 +98,10 @@ public class LoginView {
         frame.setVisible(true);
     }
 
+    public void setVisible(boolean visible) {
+        frame.setVisible(visible);
+    }
+
     public JTextField getUsernameField() {
         return usernameField;
     }
@@ -123,9 +112,5 @@ public class LoginView {
 
     public JButton getSubmitButton() {
         return submitButton;
-    }
-
-    public static void main(String[] args) {
-        new LoginView();
     }
 }

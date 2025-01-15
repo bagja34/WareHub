@@ -2,6 +2,7 @@ package controllers;
 
 import models.User;
 import view.LoginView;
+import view.DashboardView;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -15,7 +16,7 @@ public class LoginController {
         this.user = userModel;
         this.loginView = loginView;
 
-        //Action listener untuk tombol submit
+        // Action listener untuk tombol submit
         loginView.getSubmitButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -23,7 +24,10 @@ public class LoginController {
                 String password = new String(loginView.getPasswordField().getPassword());
 
                 if (userModel.isValid(username, password)) {
-                    JOptionPane.showMessageDialog(null, "Login successful!");
+                    loginView.setVisible(false);
+
+                    DashboardView dashboardView = new DashboardView();
+                    dashboardView.setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(null, "Invalid username or password.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -31,4 +35,3 @@ public class LoginController {
         });
     }
 }
-

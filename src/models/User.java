@@ -29,14 +29,4 @@ public class User {
             return false;
         }
     }
-
-    public void tutupKoneksi() {
-        try {
-            if (connection != null && !connection.isClosed()) {
-                connection.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 }

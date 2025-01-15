@@ -7,53 +7,51 @@ import java.awt.*;
 import java.sql.*;
 import java.util.Vector;
 
-public class DashboardView {
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Ware_Hub");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(1200, 800);
-            frame.setLayout(new BorderLayout());
+public class DashboardView extends JFrame {
+    public DashboardView() {
+        setTitle("Ware_Hub");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(1200, 800);
+        setLayout(new BorderLayout());
 
-            JPanel sidebar = new JPanel();
-            sidebar.setLayout(new GridLayout(5, 1, 0, 10)); // Add spacing between buttons
-            sidebar.setBackground(new Color(45, 45, 45));
-            sidebar.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        JPanel sidebar = new JPanel();
+        sidebar.setLayout(new GridLayout(5, 1, 0, 10));
+        sidebar.setBackground(new Color(45, 45, 45));
+        sidebar.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-            // Text-like buttons
-            JButton dashboardButton = createSidebarButton("DASHBOARD");
-            JButton gudangButton = createSidebarButton("GUDANG");
-            JButton pembayaranButton = createSidebarButton("PEMBAYARAN");
-            JButton historyButton = createSidebarButton("HISTORY");
+        // Text-like buttons
+        JButton dashboardButton = createSidebarButton("DASHBOARD");
+        JButton gudangButton = createSidebarButton("GUDANG");
+        JButton pembayaranButton = createSidebarButton("PEMBAYARAN");
+        JButton historyButton = createSidebarButton("HISTORY");
 
-            sidebar.add(dashboardButton);
-            sidebar.add(gudangButton);
-            sidebar.add(pembayaranButton);
-            sidebar.add(historyButton);
+        sidebar.add(dashboardButton);
+        sidebar.add(gudangButton);
+        sidebar.add(pembayaranButton);
+        sidebar.add(historyButton);
 
-            // Dashboard Panel
-            JPanel dashboardPanel = new JPanel(new BorderLayout());
-            dashboardPanel.setBackground(Color.WHITE);
-            dashboardPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding
+        // Dashboard Panel
+        JPanel dashboardPanel = new JPanel(new BorderLayout());
+        dashboardPanel.setBackground(Color.WHITE);
+        dashboardPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding
 
-            JPanel tablePanel = createTablePanel();
+        JPanel tablePanel = createTablePanel();
 
-            dashboardPanel.add(tablePanel, BorderLayout.CENTER);
+        dashboardPanel.add(tablePanel, BorderLayout.CENTER);
 
-            frame.add(sidebar, BorderLayout.WEST);
-            frame.add(dashboardPanel, BorderLayout.CENTER);
+        add(sidebar, BorderLayout.WEST);
+        add(dashboardPanel, BorderLayout.CENTER);
 
-            frame.setVisible(true);
+        // Button functionalities
+        dashboardButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Navigated to DASHBOARD"));
+        gudangButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Navigated to GUDANG"));
+        pembayaranButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Navigated to PEMBAYARAN"));
+        historyButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Navigated to HISTORY"));
 
-            // Button functionalities
-            dashboardButton.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Navigated to DASHBOARD"));
-            gudangButton.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Navigated to GUDANG"));
-            pembayaranButton.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Navigated to PEMBAYARAN"));
-            historyButton.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Navigated to HISTORY"));
-        });
+        setLocationRelativeTo(null);
     }
 
-    private static JButton createSidebarButton(String text) {
+    private JButton createSidebarButton(String text) {
         JButton button = new JButton(text);
         button.setFocusPainted(false);
         button.setBorderPainted(false);
@@ -78,7 +76,7 @@ public class DashboardView {
         return button;
     }
 
-    private static JPanel createTablePanel() {
+    private JPanel createTablePanel() {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(Color.GRAY), "Customer Information",
@@ -105,7 +103,7 @@ public class DashboardView {
         panel.add(scrollPane, BorderLayout.CENTER);
 
         // Button to load data
-        JButton viewAllButton = new JButton("View Costumer");
+        JButton viewAllButton = new JButton("View Customer");
         viewAllButton.setFont(new Font("SansSerif", Font.BOLD, 14));
         viewAllButton.setBackground(new Color(60, 179, 113)); // Medium Sea Green
         viewAllButton.setForeground(Color.WHITE);
@@ -139,7 +137,7 @@ public class DashboardView {
         return panel;
     }
 
-    private static void loadDataToTable(JTable table) throws SQLException {
+    private void loadDataToTable(JTable table) throws SQLException {
         String url = "jdbc:mysql://localhost:3306/warehub";
         String username = "root";
         String password = "";
