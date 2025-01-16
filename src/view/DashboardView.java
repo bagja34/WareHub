@@ -15,7 +15,7 @@ public class DashboardView extends JFrame {
         setLayout(new BorderLayout());
 
         JPanel sidebar = new JPanel();
-        sidebar.setLayout(new GridLayout(6, 1, 0, 10)); // Tambahkan satu baris untuk tombol login
+        sidebar.setLayout(new GridLayout(7, 1, 0, 10)); // Tambahkan satu baris untuk tombol input barang
         sidebar.setBackground(new Color(45, 45, 45));
         sidebar.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -24,12 +24,14 @@ public class DashboardView extends JFrame {
         JButton gudangButton = createSidebarButton("GUDANG");
         JButton pembayaranButton = createSidebarButton("PEMBAYARAN");
         JButton historyButton = createSidebarButton("HISTORY");
+        JButton inputBarangButton = createSidebarButton("INPUT BARANG"); // Tombol untuk navigasi ke InputBarangView
         JButton logoutButton = createSidebarButton("LOGOUT"); // Tombol untuk navigasi ke LoginView
 
         sidebar.add(dashboardButton);
         sidebar.add(gudangButton);
         sidebar.add(pembayaranButton);
         sidebar.add(historyButton);
+        sidebar.add(inputBarangButton); // Tambahkan tombol input barang
         sidebar.add(logoutButton); // Tambahkan tombol logout
 
         // Dashboard Panel
@@ -50,6 +52,10 @@ public class DashboardView extends JFrame {
         pembayaranButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Navigated to PEMBAYARAN"));
         historyButton.addActionListener(e -> {
             new HistoryView().setVisible(true); // Menampilkan HistoryView
+            dispose(); // Menutup DashboardView
+        });
+        inputBarangButton.addActionListener(e -> {
+            new input_barang().setVisible(true); // Menampilkan InputBarangView
             dispose(); // Menutup DashboardView
         });
         logoutButton.addActionListener(e -> {

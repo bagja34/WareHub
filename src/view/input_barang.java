@@ -1,142 +1,152 @@
 package view;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.*;
 import java.util.Date;
 
+public class input_barang extends JFrame {
 
-public class input_barang {
-    // Attributes matching the table columns
-    private int idBarang;
-    private String namaBarang;
-    private String kapasitas;
-    private String jenisBarang; // Should match enum ('Food', 'Furniture', etc.)
-    private String status;
-    private int berat;
-    private String jenisMakanan; // Should match enum ('Dingin', 'Biasa', etc.)
-    private Date expired;
-    private String bahan;
-    private int dimensi;
-    private int idCustomer;
+    public input_barang() {
+        setTitle("Input Barang");
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setSize(400, 600);
 
-    // Constructor
-    public input_barang(int idBarang, String namaBarang, String kapasitas, String jenisBarang, String status,
-                        int berat, String jenisMakanan, Date expired, String bahan, int dimensi, int idCustomer) {
-        this.idBarang = idBarang;
-        this.namaBarang = namaBarang;
-        this.kapasitas = kapasitas;
-        this.jenisBarang = jenisBarang;
-        this.status = status;
-        this.berat = berat;
-        this.jenisMakanan = jenisMakanan;
-        this.expired = expired;
-        this.bahan = bahan;
-        this.dimensi = dimensi;
-        this.idCustomer = idCustomer;
-    }
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(12, 2, 5, 5));
 
-    // Getters and Setters
-    public int getIdBarang() {
-        return idBarang;
-    }
+        // Add components
+        JLabel idBarangLabel = new JLabel("ID Barang:");
+        JTextField idBarangField = new JTextField();
 
-    public void setIdBarang(int idBarang) {
-        this.idBarang = idBarang;
-    }
+        JLabel namaBarangLabel = new JLabel("Nama Barang:");
+        JTextField namaBarangField = new JTextField();
 
-    public String getNamaBarang() {
-        return namaBarang;
-    }
+        JLabel kapasitasLabel = new JLabel("Kapasitas:");
+        JTextField kapasitasField = new JTextField();
 
-    public void setNamaBarang(String namaBarang) {
-        this.namaBarang = namaBarang;
-    }
+        JLabel jenisBarangLabel = new JLabel("Jenis Barang:");
+        JComboBox<String> jenisBarangBox = new JComboBox<>(new String[]{"Food", "Furniture", "Electronics"});
 
-    public String getKapasitas() {
-        return kapasitas;
-    }
+        JLabel statusLabel = new JLabel("Status:");
+        JTextField statusField = new JTextField();
 
-    public void setKapasitas(String kapasitas) {
-        this.kapasitas = kapasitas;
-    }
+        JLabel beratLabel = new JLabel("Berat:");
+        JTextField beratField = new JTextField();
 
-    public String getJenisBarang() {
-        return jenisBarang;
-    }
+        JLabel jenisMakananLabel = new JLabel("Jenis Makanan:");
+        JComboBox<String> jenisMakananBox = new JComboBox<>(new String[]{"Dingin", "Biasa"});
 
-    public void setJenisBarang(String jenisBarang) {
-        this.jenisBarang = jenisBarang;
-    }
+        JLabel expiredLabel = new JLabel("Expired (yyyy-mm-dd):");
+        JTextField expiredField = new JTextField();
 
-    public String getStatus() {
-        return status;
-    }
+        JLabel bahanLabel = new JLabel("Bahan:");
+        JTextField bahanField = new JTextField();
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+        JLabel dimensiLabel = new JLabel("Dimensi:");
+        JTextField dimensiField = new JTextField();
 
-    public int getBerat() {
-        return berat;
-    }
+        JLabel idCustomerLabel = new JLabel("ID Customer:");
+        JTextField idCustomerField = new JTextField();
 
-    public void setBerat(int berat) {
-        this.berat = berat;
-    }
+        JButton submitButton = new JButton("Submit");
+        JButton backButton = new JButton("Kembali ke Dashboard");
+        JTextArea outputArea = new JTextArea(5, 30);
+        outputArea.setEditable(false);
 
-    public String getJenisMakanan() {
-        return jenisMakanan;
-    }
+        // Add components to panel
+        panel.add(idBarangLabel);
+        panel.add(idBarangField);
+        panel.add(namaBarangLabel);
+        panel.add(namaBarangField);
+        panel.add(kapasitasLabel);
+        panel.add(kapasitasField);
+        panel.add(jenisBarangLabel);
+        panel.add(jenisBarangBox);
+        panel.add(statusLabel);
+        panel.add(statusField);
+        panel.add(beratLabel);
+        panel.add(beratField);
+        panel.add(jenisMakananLabel);
+        panel.add(jenisMakananBox);
+        panel.add(expiredLabel);
+        panel.add(expiredField);
+        panel.add(bahanLabel);
+        panel.add(bahanField);
+        panel.add(dimensiLabel);
+        panel.add(dimensiField);
+        panel.add(idCustomerLabel);
+        panel.add(idCustomerField);
+        panel.add(submitButton);
 
-    public void setJenisMakanan(String jenisMakanan) {
-        this.jenisMakanan = jenisMakanan;
-    }
+        // Add panel to frame
+        add(panel, BorderLayout.CENTER);
+        add(new JScrollPane(outputArea), BorderLayout.SOUTH);
 
-    public Date getExpired() {
-        return expired;
-    }
+        // Panel for buttons
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        buttonPanel.add(submitButton);
+        buttonPanel.add(backButton);
+        add(buttonPanel, BorderLayout.NORTH);
 
-    public void setExpired(Date expired) {
-        this.expired = expired;
-    }
+        // Submit button action
+        submitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try (Connection conn = DriverManager.getConnection(
+                        "jdbc:mysql://localhost:3306/warehub", "root", "")) {
+                    int idBarang = Integer.parseInt(idBarangField.getText());
+                    String namaBarang = namaBarangField.getText();
+                    String kapasitas = kapasitasField.getText();
+                    String jenisBarang = (String) jenisBarangBox.getSelectedItem();
+                    String status = statusField.getText();
+                    int berat = Integer.parseInt(beratField.getText());
+                    String jenisMakanan = (String) jenisMakananBox.getSelectedItem();
+                    Date expired = java.sql.Date.valueOf(expiredField.getText());
+                    String bahan = bahanField.getText();
+                    int dimensi = Integer.parseInt(dimensiField.getText());
+                    int idCustomer = Integer.parseInt(idCustomerField.getText());
 
-    public String getBahan() {
-        return bahan;
-    }
+                    String sql = "INSERT INTO barang (id_barang, nama_barang, kapasitas, Jenis_barang, status, berat, jenis_makanan, expired, bahan, dimensi, id_customer) " +
+                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    public void setBahan(String bahan) {
-        this.bahan = bahan;
-    }
+                    PreparedStatement pstmt = conn.prepareStatement(sql);
+                    pstmt.setInt(1, idBarang);
+                    pstmt.setString(2, namaBarang);
+                    pstmt.setString(3, kapasitas);
+                    pstmt.setString(4, jenisBarang);
+                    pstmt.setString(5, status);
+                    pstmt.setInt(6, berat);
+                    pstmt.setString(7, jenisMakanan);
+                    pstmt.setDate(8, new java.sql.Date(expired.getTime()));
+                    pstmt.setString(9, bahan);
+                    pstmt.setInt(10, dimensi);
+                    pstmt.setInt(11, idCustomer);
 
-    public int getDimensi() {
-        return dimensi;
-    }
+                    int rowsInserted = pstmt.executeUpdate();
 
-    public void setDimensi(int dimensi) {
-        this.dimensi = dimensi;
-    }
+                    if (rowsInserted > 0) {
+                        outputArea.setText("Data berhasil dimasukkan ke database.");
+                    } else {
+                        outputArea.setText("Gagal memasukkan data ke database.");
+                    }
+                } catch (Exception ex) {
+                    outputArea.setText("Error: " + ex.getMessage());
+                }
+            }
+        });
 
-    public int getIdCustomer() {
-        return idCustomer;
-    }
+        // Back button action
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new DashboardView().setVisible(true);
+                dispose(); // Menutup jendela input_barang
+            }
+        });
 
-    public void setIdCustomer(int idCustomer) {
-        this.idCustomer = idCustomer;
-    }
-
-    // Method to display object details
-    @Override
-    public String toString() {
-        return "input_barang{" +
-                "idBarang=" + idBarang +
-                ", namaBarang='" + namaBarang + '\'' +
-                ", kapasitas='" + kapasitas + '\'' +
-                ", jenisBarang='" + jenisBarang + '\'' +
-                ", status='" + status + '\'' +
-                ", berat=" + berat +
-                ", jenisMakanan='" + jenisMakanan + '\'' +
-                ", expired=" + expired +
-                ", bahan='" + bahan + '\'' +
-                ", dimensi=" + dimensi +
-                ", idCustomer=" + idCustomer +
-                '}';
+        setLocationRelativeTo(null);
     }
 }
